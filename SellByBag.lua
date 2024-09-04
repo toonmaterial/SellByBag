@@ -1,6 +1,4 @@
-local function sell(container, slot)
-	slot = slot or 1
-
+local function iter(container, slot)
 	if not MerchantFrame:IsShown() then
 		return
 	end
@@ -10,14 +8,13 @@ local function sell(container, slot)
 	end
 
 	if not C_Container.GetContainerItemInfo(container, slot) then
-		sell(container, slot + 1)
-		return
+		return iter(container, slot + 1)
 	end
 
 	C_Container.UseContainerItem(container, slot)
 
-	C_Timer.NewTimer(.1, function()
-		sell(container, slot + 1)
+	C_Timer.After(.1, function()
+		iter(container, slot + 1)
 	end)
 end
 
@@ -26,7 +23,7 @@ for container = 0, 5 do
 
 	f.PortraitButton:HookScript("OnClick", function()
 		if IsShiftKeyDown() then
-			sell(container)
+			iter(container, 1)
 		end
 	end)
 end
