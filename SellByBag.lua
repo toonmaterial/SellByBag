@@ -1,6 +1,10 @@
 local function sell(container, slot)
 	slot = slot or 1
 
+	if not MerchantFrame:IsShown() then
+		return
+	end
+
 	if slot > C_Container.GetContainerNumSlots(container) then
 		return
 	end
@@ -21,7 +25,7 @@ for container = 0, 5 do
 	local f = _G["ContainerFrame" .. container + 1]
 
 	f.PortraitButton:HookScript("OnClick", function()
-		if MerchantFrame:IsShown() and IsShiftKeyDown() then
+		if IsShiftKeyDown() then
 			sell(container)
 		end
 	end)
