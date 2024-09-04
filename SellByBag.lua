@@ -5,6 +5,11 @@ local function sell(container, slot)
 		return
 	end
 
+	if not C_Container.GetContainerItemInfo(container, slot) then
+		sell(container, slot + 1)
+		return
+	end
+
 	C_Container.UseContainerItem(container, slot)
 
 	C_Timer.NewTimer(.1, function()
